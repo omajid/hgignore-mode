@@ -37,6 +37,26 @@
    (cons (regexp-opt '("syntax" "regexp" "glob")) 'font-lock-keyword-face))
   "Keywords recognized by font-lock for `hgignore-mode'.")
 
+(defun hgignore-completion-at-point ()
+  "`completion-at-point' support for hgignore-mode."
+  (let* ((line-start (save-excursion
+                       (beginning-of-line)
+                       (point)))
+         (line-end (save-excursion
+                     (end-of-line)
+                     (point)))
+         (last-slash (save-excursion
+                       (condition-case nil
+                           (progn
+                             (end-of-line)
+                             (re-search-backward "/" line-start))
+                         (error line-start))))
+         (root-path (file-name-directory (buffer-file-name)))
+         (base-path (buffer-substring-no-properties line-start last-slash))
+         (path (concat root-path base-path "/"))
+         (completions (directory-files path)))
+    (list (1+ last-slash) (point) completions)))
+
 ;;;###autoload
 (define-derived-mode hgignore-mode prog-mode "hgignore"
   "Major mode for editing .hgignore files."
@@ -48,7 +68,9 @@
     (modify-syntax-entry ?\n ">" table))
   ;; comment/uncomment correctly
   (setq comment-start "#")
-  (setq comment-end ""))
+  (setq comment-end "")
+  ;; auto completion
+  (add-hook 'completion-at-point-functions #'hgignore-completion-at-point nil t))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.hgignore\\'" . hgignore-mode))
