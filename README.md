@@ -8,8 +8,12 @@ version control system.
 Installation
 ------------
 
-Use `M-x package-install-from-file RET hgignore-model.el RET` to install.
+`hgignore-mode` is included in [MELPA](http://melpa.org/). Enable the
+MELPA repository and then install it via `M-x package-install RET
+hgignore-mode`.
 
+Or download the package manually and install it using `M-x
+package-install-from-file RET hgignore-model.el RET`.
 
 License
 -------
