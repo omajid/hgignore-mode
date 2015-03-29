@@ -1,11 +1,11 @@
 ;;; hgignore-mode.el --- a major mode for editing hgignore files
 
-;;; Copyright (C) 2014 Omair Majid
+;;; Copyright (C) 2014-2015 Omair Majid
 
 ;; Author: Omair Majid <omair.majid@gmail.com>
 ;; URL: http://github.com/omajid/hgignore-mode
 ;; Keywords: convenience vc hg
-;; Version: 0.1.20141026
+;; Version: 0.1.20150329
 
 ;; This file is NOT part of GNU Emacs.
 

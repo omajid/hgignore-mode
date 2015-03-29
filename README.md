@@ -18,7 +18,7 @@ package-install-from-file RET hgignore-model.el RET`.
 License
 -------
 
-Copyright (C) 2014 Omair Majid
+Copyright (C) 2014-2015 Omair Majid
 
 Author: Omair Majid <omair.majid@gmail.com>
 
