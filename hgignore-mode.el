@@ -42,17 +42,17 @@
   (let* ((line-start (save-excursion
                        (beginning-of-line)
                        (point)))
-         (last-slash (save-excursion
-                       (condition-case nil
-                           (progn
-                             (end-of-line)
-                             (re-search-backward "/" line-start))
-                         (error line-start))))
+         (completion-start (save-excursion
+                             (condition-case nil
+                                 (progn
+                                   (end-of-line)
+                                   (1+ (re-search-backward "/" line-start)))
+                               (error line-start))))
          (root-path (file-name-directory (buffer-file-name)))
-         (base-path (buffer-substring-no-properties line-start last-slash))
+         (base-path (buffer-substring-no-properties line-start completion-start))
          (path (concat root-path base-path "/"))
          (completions (directory-files path)))
-    (list (1+ last-slash) (point) completions)))
+    (list completion-start (point) completions)))
 
 ;;;###autoload
 (define-derived-mode hgignore-mode prog-mode "hgignore"
