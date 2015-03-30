@@ -42,9 +42,6 @@
   (let* ((line-start (save-excursion
                        (beginning-of-line)
                        (point)))
-         (line-end (save-excursion
-                     (end-of-line)
-                     (point)))
          (last-slash (save-excursion
                        (condition-case nil
                            (progn
