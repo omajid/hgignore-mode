@@ -39,6 +39,18 @@
 
 (defun hgignore-completion-at-point ()
   "`completion-at-point' support for hgignore-mode."
+  (if (looking-back "^syntax: ?")
+      (hgignore-complete-syntax)
+    (hgignore-complete-raw-path)))
+
+(defun hgignore-complete-syntax ()
+  "Complete the `syntax' parts of hgingore."
+  (when (looking-back "^syntax: ?")
+    (list (line-beginning-position) (point)
+          (list "syntax: regexp" "syntax: glob"))))
+
+(defun hgignore-complete-raw-path ()
+  "Complete paths in hginore."
   (let* ((line-start (save-excursion
                        (beginning-of-line)
                        (point)))
@@ -51,8 +63,17 @@
          (root-path (file-name-directory (buffer-file-name)))
          (base-path (buffer-substring-no-properties line-start completion-start))
          (path (concat root-path base-path "/"))
-         (completions (directory-files path)))
-    (list completion-start (point) completions)))
+         (how-to-quote (save-excursion
+                         (condition-case nil
+                             (progn
+                               (re-search-backward "^syntax: \\(regexp\\|glob\\)$")
+                               (if (string-equal (match-string 1) "regexp")
+                                   #'regexp-quote
+                                 #'identity))
+                           (error #'regexp-quote)))))
+    (list completion-start
+          (point)
+          (mapcar how-to-quote (directory-files path)))))
 
 ;;;###autoload
 (define-derived-mode hgignore-mode prog-mode "hgignore"
