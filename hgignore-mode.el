@@ -32,25 +32,25 @@
 
 (require 'newcomment)
 
-(defconst hgignore-mode-keywords
+(defconst hgignore--keywords
   (list
    (cons (regexp-opt '("syntax" "regexp" "glob")) 'font-lock-keyword-face))
   "Keywords recognized by font-lock for `hgignore-mode'.")
 
-(defun hgignore-completion-at-point ()
+(defun hgignore--completion-at-point ()
   "`completion-at-point' support for hgignore-mode."
   (if (looking-back "^syntax: ?")
-      (hgignore-complete-syntax)
-    (hgignore-complete-raw-path)))
+      (hgignore--complete-syntax)
+    (hgignore--complete-raw-path)))
 
-(defun hgignore-complete-syntax ()
+(defun hgignore--complete-syntax ()
   "Complete the `syntax' parts of hgingore."
   (when (looking-back "^syntax: ?")
     (list (line-beginning-position) (point)
           (list "syntax: regexp" "syntax: glob"))))
 
-(defun hgignore-complete-raw-path ()
-  "Complete paths in hginore."
+(defun hgignore--complete-raw-path ()
+  "Complete paths, escaping according to the currently active syntax."
   (let* ((line-start (save-excursion
                        (beginning-of-line)
                        (point)))
@@ -85,7 +85,7 @@
 (define-derived-mode hgignore-mode hgignore-parent-mode "hgignore"
   "Major mode for editing .hgignore files."
   ;; set up font-lock
-  (setq font-lock-defaults (list hgignore-mode-keywords))
+  (setq font-lock-defaults (list hgignore--keywords))
   ;; syntax table
   (let (table hgignore-mode-syntax-table)
     (modify-syntax-entry ?\# "<" table)
@@ -94,7 +94,7 @@
   (setq comment-start "#")
   (setq comment-end "")
   ;; auto completion
-  (add-hook 'completion-at-point-functions #'hgignore-completion-at-point nil t))
+  (add-hook 'completion-at-point-functions #'hgignore--completion-at-point nil t))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.hgignore\\'" . hgignore-mode))
