@@ -75,8 +75,14 @@
           (point)
           (mapcar how-to-quote (directory-files path)))))
 
+;; prog-mode was introduced in emacs 24.1
+(defalias 'hgignore-parent-mode
+  (if (fboundp 'prog-mode)
+      'prog-mode
+    'fundamental-mode))
+
 ;;;###autoload
-(define-derived-mode hgignore-mode prog-mode "hgignore"
+(define-derived-mode hgignore-mode hgignore-parent-mode "hgignore"
   "Major mode for editing .hgignore files."
   ;; set up font-lock
   (setq font-lock-defaults (list hgignore-mode-keywords))
