@@ -1,4 +1,4 @@
-;;; hgignore-mode.el --- a major mode for editing hgignore files
+;;; hgignore-mode.el --- a major mode for editing hgignore files -*- lexical-binding: t -*-
 
 ;;; Copyright (C) 2014-2015 Omair Majid
 
