@@ -34,7 +34,8 @@
 
 (defconst hgignore--keywords
   (list
-   (cons (regexp-opt '("syntax" "regexp" "glob")) 'font-lock-keyword-face))
+   (cons (regexp-opt '("syntax" "regexp" "glob") 'symbols)
+         'font-lock-keyword-face))
   "Keywords recognized by font-lock for `hgignore-mode'.")
 
 (defun hgignore--completion-at-point ()
