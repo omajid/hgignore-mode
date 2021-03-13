@@ -40,13 +40,13 @@
 
 (defun hgignore--completion-at-point ()
   "`completion-at-point' support for hgignore-mode."
-  (if (looking-back "^syntax: ?")
+  (if (looking-back "^syntax: ?" nil)
       (hgignore--complete-syntax)
     (hgignore--complete-raw-path)))
 
 (defun hgignore--complete-syntax ()
-  "Complete the `syntax' parts of hgingore."
-  (when (looking-back "^syntax: ?")
+  "Complete the `syntax' parts of hgignore."
+  (when (looking-back "^syntax: ?" nil)
     (list (line-beginning-position) (point)
           (list "syntax: regexp" "syntax: glob"))))
 
