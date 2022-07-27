@@ -88,7 +88,7 @@
   ;; set up font-lock
   (setq font-lock-defaults (list hgignore--keywords))
   ;; syntax table
-  (let (table hgignore-mode-syntax-table)
+  (let ((table hgignore-mode-syntax-table))
     (modify-syntax-entry ?\# "<" table)
     (modify-syntax-entry ?\n ">" table))
   ;; comment/uncomment correctly
